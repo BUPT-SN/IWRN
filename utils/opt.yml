@@ -1,0 +1,213 @@
+#
+train/test:  test
+   # train or test or validation
+
+#
+subfolder:      # str or None
+
+
+#
+train:
+
+  manual_seed:
+  device_ids: [0]
+  os_environ: '0'
+  batch_size: 16
+  num_workers: 16
+  epoch: 150
+  set_start_epoch: 1
+  start_step: 1
+  logs_per_step: 1
+  logTest_per_step: 1
+
+  val:
+    per_epoch: 5
+    logs_per_step: 10
+  
+  checkpoint_per_epoch: 5
+  saveTrainImgs_per_step: 500      
+  saveValImgs_in_step: 5            
+  saveTestImgs_per_step: 1        
+  saveStacked: true         
+  saveFormat: '.jpg'     
+  msg_save: False
+  #
+  resume:
+    one_pth:   true
+    Partial:   true      
+    Empty:     
+
+
+
+#
+lr:
+  #
+  start_lr: 0.0001   
+  milestones: [3000, 50000, 1000000]
+  optimizer: Adam
+  gamma: 0.1
+
+
+loss:
+  option: lamd   
+  lamd: 
+    #
+    milestones_Rec: [1000000]
+    Rec: [0]
+    #
+    milestones_Eec: [1000000]
+    Eec: [1]
+    #
+    milestones_Con : [1000000]
+    Con : [0]
+    #
+    milestones_Msg: [1000000]
+    Msg: [2]
+  #
+  type:
+    TypeRecImg: 'l2'   
+    TyptRecMsg: 'mse'  
+    TyprEncoded: 'l2'  
+
+noise:
+  StrengthFactor:
+    S: 1
+
+  option:   'Combined'
+
+  Rotation:
+    degrees: 15 
+    p: 1
+
+  Affine:
+    degrees: 0
+    translate: 0.05
+    scale: [ 0.95,0.95 ]
+    shear: 10
+    p: 1
+
+  Space:
+
+    names: [ 'Rotation', 'Affine' ]
+  
+  Combined:
+    names: [ 'Rotation',  'Cropout', 'Resize', 'GaussianBlur', 'Salt_Pepper', 'GaussianNoise', 'Dropout', 'Contrast', 'Saturation', 'Hue','Affine','Brightness' ]
+
+  
+  Superposition:
+    shuffle: true
+    si_pool: [ 'GaussianBlur', 'Cropout', 'Saturation' ]
+   
+  
+  Identity:
+  
+  GaussianBlur:
+    kernel_sizes: 7
+    sigmas: 1
+  
+  Salt_Pepper:
+    snr: 0.9      # Probability of the original image (pixel wise)
+    p:  1.0
+  GaussianNoise:
+    mean: 0
+    variance: 1
+    amplitude: 0.2
+    p: 1
+  #
+  Resize:
+    p: 0.7
+    interpolation_method: 'bicubic'
+  #
+  Dropout:
+    p: 0.3
+  #
+  Cropout:
+    p: 0.3
+  #
+  Brightness:
+    f : 1.5
+  Contrast:
+    f : 1.5 
+  Saturation:
+    f : 1.5  
+  Hue :
+    f : 0.1    
+
+
+
+#
+path:
+  # logs
+  logs_folder:        '../watermarking_IWRN/experiments/IWRN_Example'
+  folder_temp:
+
+  train_folder:       '/data/watermark/Datasets/paper_datasets/train/train/'
+  test_folder:        '/home/yyh/yyh/PythonProject/IWRN/coco_test'
+
+
+  
+
+  resume_state_1pth:  '/home/yyh/yyh/PythonProject/IWRN/model/IWRN_Example.pth'
+  
+
+
+
+#
+datasets:
+  #
+  nDatasets:
+    num: 10500  
+    nTrain: 0.8       #    nDatasets x nTrain
+    nval: 0.2     #    nDatasets x (1-nTrain)
+  #
+  test:
+    num: 2000 # coco
+    
+  #
+  msg:              # np.random.choice([ , ])
+    mod_a: true        # [0, 1]
+    mod_b: False         # [-1, 1]
+  H: 128
+  W: 128
+
+
+
+#### network (blocks)
+network:
+  input:
+    num_of_imgs: 1
+    in_img_nc: 3
+  InvBlock:
+    type: DBNet
+    block_num: 16
+    split1_img: 12        
+    split2_repeat: 12     
+    downscaling:
+      use_down: true
+      use_conv1x1: False
+      in_nc: 3
+      current_cn: 3
+      down_num: 1         
+      scale: 0.5
+      type: haar
+  #
+  cs:
+    in_nc: 3
+    out_nc: 3
+  #
+  H: 128     
+  W: 128      
+  message_length: 32   
+  #
+  RGB2YUV: False
+  #
+  fusion:
+    option: true
+    fusion_length: 256    
+    upconvT_channels: 1
+    repeat_channel: 3
+    blocks: 3
+
+
+
+
