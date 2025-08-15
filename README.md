@@ -12,8 +12,7 @@ https://drive.google.com/file/d/1jQMJCa1Y9aPpCPq6nmSgdVBMfejf03MA/view?usp=drive
 https://drive.google.com/file/d/11mEyffPS90aDkmyTq-LlEaOqTtwnn3Ml/view?usp=drive_link
 
 #Create Environment
-
-conda env create -f requirements.yml
+'''conda env create -f requirements.yml'''
 
 #Run 
-python main.py
+'''python main.py'''
