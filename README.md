@@ -9,7 +9,7 @@ Download under file floder "model" by:
 https://drive.google.com/file/d/1jQMJCa1Y9aPpCPq6nmSgdVBMfejf03MA/view?usp=drive_link
 ```
 
-### Example Dataset
+### Part of test Dataset
 
 ```bash
 https://drive.google.com/file/d/11mEyffPS90aDkmyTq-LlEaOqTtwnn3Ml/view?usp=drive_link
