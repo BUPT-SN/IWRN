@@ -22,6 +22,8 @@ https://drive.google.com/file/d/11mEyffPS90aDkmyTq-LlEaOqTtwnn3Ml/view?usp=drive
 conda env create -f requirements.yml
 ```
 
+Additionally, the mmcv library is required and should be placed under the codes folder.
+
 ### Run 
 
 ```bash
